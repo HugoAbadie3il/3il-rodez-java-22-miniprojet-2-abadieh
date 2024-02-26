@@ -23,6 +23,12 @@
 hs_err_pid*
 replay_pid*
 
+# IDE files
 .idea/
+
+# Project files
 lib/
 *.iml
+
+# Doc files
+doc/
