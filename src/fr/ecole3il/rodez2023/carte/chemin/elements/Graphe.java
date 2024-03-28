@@ -1,4 +1,4 @@
-package fr.ecole3il.rodez2023.carte.elements;
+package fr.ecole3il.rodez2023.carte.chemin.elements;
 
 import java.util.*;
 
@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Graphe<E> {
     private Set<Noeud<E>> noeuds;
-    private Map<Map<Noeud<E>, Noeud<E>>, Integer> aretes;
+    private Map<Map<Noeud<E>, Noeud<E>>, Double> aretes;
 
     private boolean isOriented;
 
@@ -45,7 +45,7 @@ public class Graphe<E> {
      * @param arrivee Noeud d'arrivée
      * @param cout Coût de l'arête
      */
-    public void ajouterArete(Noeud<E> depart, Noeud<E> arrivee, int cout) {
+    public void ajouterArete(Noeud<E> depart, Noeud<E> arrivee, double cout) {
         // Ajout des noeuds s'ils ne sont pas déjà présents
         if (!noeuds.contains(depart))
             ajouterNoeud(depart);
@@ -73,7 +73,7 @@ public class Graphe<E> {
      * @param arrivee Noeud d'arrivée
      * @return Coût de l'arête
      */
-    public int getCout(Noeud<E> depart, Noeud<E> arrivee) {
+    public double getCout(Noeud<E> depart, Noeud<E> arrivee) {
         Map<Noeud<E>, Noeud<E>> arete = new HashMap<>();
         arete.put(depart, arrivee);
         return this.aretes.get(arete);

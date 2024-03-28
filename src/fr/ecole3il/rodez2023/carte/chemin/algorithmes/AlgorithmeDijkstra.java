@@ -1,7 +1,7 @@
 package fr.ecole3il.rodez2023.carte.chemin.algorithmes;
 
-import fr.ecole3il.rodez2023.carte.elements.Graphe;
-import fr.ecole3il.rodez2023.carte.elements.Noeud;
+import fr.ecole3il.rodez2023.carte.chemin.elements.Graphe;
+import fr.ecole3il.rodez2023.carte.chemin.elements.Noeud;
 
 import java.util.*;
 
@@ -27,6 +27,7 @@ public class AlgorithmeDijkstra<E> implements AlgorithmeChemin<E> {
 
         for (Noeud<E> noeud : graphe.getNoeuds()) {
             distances.put(noeud, Double.MAX_VALUE);
+            predecesseurs.put(noeud, null);
         }
 
         distances.put(depart, 0.0);
@@ -35,6 +36,10 @@ public class AlgorithmeDijkstra<E> implements AlgorithmeChemin<E> {
         // Exploration des noeuds
         while (!file.isEmpty()) {
             Noeud<E> current = file.poll();
+
+            if (current.equals(arrivee)) {
+                break;
+            }
 
             for (Noeud<E> voisin : graphe.getVoisins(current)) {
                 double distance = distances.get(current) + graphe.getCout(current, voisin);
@@ -55,6 +60,8 @@ public class AlgorithmeDijkstra<E> implements AlgorithmeChemin<E> {
             chemin.add(0, current);
             current = predecesseurs.get(current);
         }
+
+        Collections.reverse(chemin);
 
         return chemin;
     }

@@ -1,7 +1,7 @@
 package fr.ecole3il.rodez2023.carte.chemin.algorithmes;
 
-import fr.ecole3il.rodez2023.carte.elements.Graphe;
-import fr.ecole3il.rodez2023.carte.elements.Noeud;
+import fr.ecole3il.rodez2023.carte.chemin.elements.Graphe;
+import fr.ecole3il.rodez2023.carte.chemin.elements.Noeud;
 
 import java.util.*;
 
@@ -31,6 +31,7 @@ public class AlgorithmeAEtoile<E> implements AlgorithmeChemin<E> {
         for (Noeud<E> node : graphe.getNoeuds()) {
             gScore.put(node, Double.MAX_VALUE);
             fScore.put(node, Double.MAX_VALUE);
+            cameFrom.put(node, null);
         }
 
         // The gScore of the start node is 0 and its fScore is the heuristic cost from the start to the goal
@@ -124,6 +125,8 @@ public class AlgorithmeAEtoile<E> implements AlgorithmeChemin<E> {
             current = cameFrom.get(current);
             totalPath.add(0, current);
         }
+
+        Collections.reverse(totalPath);
 
         return totalPath;
     }
