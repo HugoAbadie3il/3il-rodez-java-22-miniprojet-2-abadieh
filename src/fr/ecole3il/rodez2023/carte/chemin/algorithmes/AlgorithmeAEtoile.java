@@ -31,7 +31,6 @@ public class AlgorithmeAEtoile<E> implements AlgorithmeChemin<E> {
         for (Noeud<E> node : graphe.getNoeuds()) {
             gScore.put(node, Double.MAX_VALUE);
             fScore.put(node, Double.MAX_VALUE);
-            cameFrom.put(node, null);
         }
 
         // Initialisation du noeud de départ
@@ -125,8 +124,6 @@ public class AlgorithmeAEtoile<E> implements AlgorithmeChemin<E> {
             current = cameFrom.get(current);
             totalPath.add(0, current);
         }
-
-        Collections.reverse(totalPath);
 
         return totalPath;
     }

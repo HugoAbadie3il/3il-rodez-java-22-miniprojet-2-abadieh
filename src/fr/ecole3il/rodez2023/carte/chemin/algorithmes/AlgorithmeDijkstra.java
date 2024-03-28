@@ -27,7 +27,6 @@ public class AlgorithmeDijkstra<E> implements AlgorithmeChemin<E> {
 
         for (Noeud<E> noeud : graphe.getNoeuds()) {
             distances.put(noeud, Double.MAX_VALUE);
-            predecesseurs.put(noeud, null);
         }
 
         distances.put(depart, 0.0);
@@ -60,8 +59,6 @@ public class AlgorithmeDijkstra<E> implements AlgorithmeChemin<E> {
             chemin.add(0, current);
             current = predecesseurs.get(current);
         }
-
-        Collections.reverse(chemin);
 
         return chemin;
     }
