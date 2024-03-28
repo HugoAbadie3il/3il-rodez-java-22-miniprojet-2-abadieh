@@ -20,65 +20,65 @@ public class AlgorithmeAEtoile<E> implements AlgorithmeChemin<E> {
      */
     @Override
     public List<Noeud<E>> trouverChemin(Graphe<E> graphe, Noeud<E> depart, Noeud<E> arrivee) {
-        // Initialize the open set, closed set, and maps to store the gScore and fScore of each node
+        // Initialisation du set des noeuds à évaluer, du set des noeuds déjà évalués, des prédécesseurs, des scores réels et potentiels
         Set<Noeud<E>> openSet = new HashSet<>();
         Set<Noeud<E>> closedSet = new HashSet<>();
         Map<Noeud<E>, Noeud<E>> cameFrom = new HashMap<>();
         Map<Noeud<E>, Double> gScore = new HashMap<>();
         Map<Noeud<E>, Double> fScore = new HashMap<>();
 
-        // Set the gScore and fScore of each node to infinity initially
+        // Définition des scores initiaux, tous les noeuds ont un gScore et un fScore infini
         for (Noeud<E> node : graphe.getNoeuds()) {
             gScore.put(node, Double.MAX_VALUE);
             fScore.put(node, Double.MAX_VALUE);
             cameFrom.put(node, null);
         }
 
-        // The gScore of the start node is 0 and its fScore is the heuristic cost from the start to the goal
+        // Initialisation du noeud de départ
         gScore.put(depart, 0.0);
         fScore.put(depart, h(depart, arrivee));
         openSet.add(depart);
 
-        // While there are still nodes to be evaluated
+        // Tant qu'il reste des noeuds à évaluer
         while (!openSet.isEmpty()) {
-            // Get the node in the open set with the lowest fScore
+            // Récupère le noeud de l'open set avec le plus bas fScore
             Noeud<E> current = getNoeudWithLowestFScore(openSet, fScore);
 
-            // If the current node is the goal, then we have found the shortest path
+            // Si le noeud actuel est le noeud d'arrivée, reconstruit le chemin et le retourne
             if (current.equals(arrivee)) {
                 return reconstructPath(cameFrom, current);
             }
 
-            // Move the current node from the open set to the closed set
+            // Déplace le noeud actuel de l'open set vers le closed set
             openSet.remove(current);
             closedSet.add(current);
 
-            // For each neighbor of the current node
+            // Pour chaque voisin du noeud actuel
             for (Noeud<E> neighbor : graphe.getVoisins(current)) {
-                // If the neighbor is in the closed set, ignore it
+                // Ignore les voisins déjà évalués
                 if (closedSet.contains(neighbor)) {
                     continue;
                 }
 
-                // Calculate the tentative gScore of the neighbor
+                // Calcule le gScore potentiel du voisin
                 double tentativeGScore = gScore.get(current) + graphe.getCout(current, neighbor);
 
-                // If the neighbor is not in the open set, add it
+                // Si le voisin n'est pas dans l'open set, l'ajoute
                 if (!openSet.contains(neighbor)) {
                     openSet.add(neighbor);
                 } else if (tentativeGScore >= gScore.get(neighbor)) {
-                    // If the tentative gScore is not better than the current gScore, ignore this neighbor
+                    // Si le gScore potentiel est plus grand que le gScore actuel, ignore ce voisin
                     continue;
                 }
 
-                // If we reach here, then this path is the best so far, so record it
+                // Ce chemin est le meilleur jusqu'à présent, on l'enregistre
                 cameFrom.put(neighbor, current);
                 gScore.put(neighbor, tentativeGScore);
                 fScore.put(neighbor, gScore.get(neighbor) + h(neighbor, arrivee));
             }
         }
 
-        // If we reach here, then there is no path from the start to the goal
+        // Si aucun chemin n'a été trouvé, retourne null
         return null;
     }
 

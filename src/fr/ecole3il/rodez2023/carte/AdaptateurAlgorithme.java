@@ -129,6 +129,14 @@ public class AdaptateurAlgorithme {
         return cheminCases;
     }
 
+    /**
+     * Récupère le nœud à partir des coordonnées spécifiées.
+     *
+     * @param graphe le graphe contenant les nœuds.
+     * @param x la coordonnée X du nœud.
+     * @param y la coordonnée Y du nœud.
+     * @return le nœud correspondant aux coordonnées spécifiées.
+     */
     private static Noeud<Case> getNoeud(Graphe<Case> graphe, int x, int y) {
         for (Noeud<Case> noeud : graphe.getNoeuds()) {
             if (noeud.getValeur().getX() == x && noeud.getValeur().getY() == y) {
